@@ -1,0 +1,8 @@
+Starting audit...
+[ERROR] /home/mikee/Desktop/POO/Teme/01/Tests/00/Tema-POO-2020/./src/main/Test.java:8:8: Unused import - java.util.Scanner. [UnusedImports]
+[ERROR] /home/mikee/Desktop/POO/Teme/01/Tests/00/Tema-POO-2020/./src/users/Users.java:5:17: Using the '.*' form of import should be avoided - java.util.*. [AvoidStarImport]
+[ERROR] /home/mikee/Desktop/POO/Teme/01/Tests/00/Tema-POO-2020/./src/users/Users.java:233:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] /home/mikee/Desktop/POO/Teme/01/Tests/00/Tema-POO-2020/./src/actions/queries/Query.java:8:17: Using the '.*' form of import should be avoided - java.util.*. [AvoidStarImport]
+[ERROR] /home/mikee/Desktop/POO/Teme/01/Tests/00/Tema-POO-2020/./src/videos/Videos.java:8:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
+Audit done.
+Checkstyle ends with 5 errors.
