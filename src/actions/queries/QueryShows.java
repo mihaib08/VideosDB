@@ -2,16 +2,16 @@ package actions.queries;
 
 import common.Constants;
 import fileio.ActionInputData;
-import videos.Movies;
+import videos.Serials;
 
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * Query Util - objectType == "movies"
+ * Query Util - objectType == "shows"
  */
-public final class QueryMovies extends Query {
-    public QueryMovies(final ActionInputData action) {
+public final class QueryShows extends Query {
+    public QueryShows(final ActionInputData action) {
         super(action);
     }
 
@@ -19,22 +19,22 @@ public final class QueryMovies extends Query {
      * Get the specific message depending on the criteria
      *    -- filters - yr, genre
      */
-    public String solveMovies(final String yr, final String genre) {
+    public String solveShows(final String yr, final String genre) {
         String message;
         /* Check criteria */
         if (criteria.equals(Constants.MOST_VIEWED)) {
             HashMap<String, Integer> videos;
 
             if (yr == null && genre == null) {
-                videos = Movies.listMovies();
+                videos = Serials.listSerials();
             } else if (yr == null) {
-                videos = Movies.listMovies(genre);
+                videos = Serials.listSerials(genre);
             } else {
                 Integer year = Integer.parseInt(yr);
                 if (genre == null) {
-                    videos = Movies.listMovies(year);
+                    videos = Serials.listSerials(year);
                 } else {
-                    videos = Movies.listMovies(year, genre);
+                    videos = Serials.listSerials(year, genre);
                 }
             }
             message = getMostVideos(videos);
@@ -42,15 +42,15 @@ public final class QueryMovies extends Query {
         } else if (criteria.equals(Constants.LONGEST)) {
             List<String> res;
             if (yr == null && genre == null) {
-                res = Movies.sortByDuration(Movies.getMovies());
+                res = Serials.sortByDuration(Serials.getShows());
             } else if (yr == null) {
-                res = Movies.sortByDuration(Movies.getGenreMovies(genre));
+                res = Serials.sortByDuration(Serials.getGenreSerials(genre));
             } else {
                 Integer year = Integer.parseInt(yr);
                 if (genre == null) {
-                    res = Movies.sortByDuration(Movies.getYearMovies(year));
+                    res = Serials.sortByDuration(Serials.getYearSerials(year));
                 } else {
-                    res = Movies.sortByDuration(Movies.getYearGenreMovies(year, genre));
+                    res = Serials.sortByDuration(Serials.getYearGenreSerials(year, genre));
                 }
             }
             message = getLongest(res);
@@ -59,15 +59,15 @@ public final class QueryMovies extends Query {
             HashMap<String, Integer> list;
 
             if (yr == null && genre == null) {
-                list = Movies.getFavorites();
+                list = Serials.getFavorites();
             } else if (yr == null) {
-                list = Movies.getGenreFavorites(genre);
+                list = Serials.getGenreFavorites(genre);
             } else {
                 Integer year = Integer.parseInt(yr);
                 if (genre == null) {
-                    list = Movies.getYearFavorites(year);
+                    list = Serials.getYearFavorites(year);
                 } else {
-                    list = Movies.getYearGenreFavorites(year, genre);
+                    list = Serials.getYearGenreFavorites(year, genre);
                 }
             }
             message = getMostVideos(list);
@@ -76,15 +76,15 @@ public final class QueryMovies extends Query {
             HashMap<String, Double> list;
 
             if (yr == null && genre == null) {
-                list = Movies.getRatings();
+                list = Serials.getRatings();
             } else if (yr == null) {
-                list = Movies.getGenreRatings(genre);
+                list = Serials.getGenreRatings(genre);
             } else {
                 Integer year = Integer.parseInt(yr);
                 if (genre == null) {
-                    list = Movies.getYearRatings(year);
+                    list = Serials.getYearRatings(year);
                 } else {
-                    list = Movies.getYearGenreRatings(year, genre);
+                    list = Serials.getYearGenreRatings(year, genre);
                 }
             }
             message = getMostRated(list);

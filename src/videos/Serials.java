@@ -1,5 +1,6 @@
 package videos;
 
+import common.Constants;
 import entertainment.Season;
 import fileio.SerialInputData;
 import users.Ratings;
@@ -357,7 +358,15 @@ public final class Serials {
         return res;
     }
 
+    /**
+     * Find the mean rating of a serial
+     */
     private static double findMeanRatings(final SerialInputData v) {
+        /* check if the serial was rated */
+        if (!Users.getTotalRatings().containsKey(v.getTitle())) {
+            return Constants.ERROR_VALUE;
+        }
+
         HashMap<Integer, Ratings> seasonRatings = Users.getTotalRatings().get(v.getTitle());
         double res = 0;
 
@@ -378,6 +387,22 @@ public final class Serials {
 
         res /= nr;
         return res;
+    }
+
+    /**
+     * Check if a video named s is a serial
+     *      --> if true, return its meanRating
+     *                 -- if it wasn't rated --> -2;
+     */
+    public static double checkSerial(final String s) {
+        for (SerialInputData v : serials) {
+            if (v.getTitle().equals(s)) {
+                double res = findMeanRatings(v);
+                return res;
+            }
+        }
+        /* s is not a serial */
+        return -1;
     }
 
     /** Getters + Setters */

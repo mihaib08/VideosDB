@@ -2,6 +2,7 @@ package main;
 
 import actions.Command;
 import actions.queries.Query;
+import actor.Actors;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
@@ -86,6 +87,7 @@ public final class Main {
         Users users =  new Users(input.getUsers());
         Movies.genUtils(input.getMovies());
         Serials.genUtils(input.getSerials());
+        Actors actors = new Actors(input.getActors());
         String message;
 
         /* Parse the actions array */

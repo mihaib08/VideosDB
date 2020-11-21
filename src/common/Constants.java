@@ -76,6 +76,9 @@ public final class Constants {
 
     // add any constants you think you may use
 
+    // Magic Number - coding style
+    public static final int ERROR_VALUE = -2;
+
     // Command_Type
     public static final String FAVORITE = "favorite";
     public static final String VIEW = "view";
@@ -85,4 +88,6 @@ public final class Constants {
     public static final String MOST_VIEWED = "most_viewed";
     public static final String LONGEST = "longest";
     public static final String RATINGS = "ratings";
+
+    public static final String AVERAGE = "average";
 }

@@ -10,6 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Utility class
+ *     --> operate with movies
+ */
 public final class Movies {
     /**
      * HashMap year (key) - movies (value)
@@ -334,7 +338,16 @@ public final class Movies {
         return res;
     }
 
-    private static Double findMeanRatings(final String v) {
+    /**
+     * Find the mean rating of a movie
+     * based on its no. ratings and ratingsSum
+     */
+    public static double findMeanRatings(final String v) {
+        /* v wasn't rated */
+        if (!Users.getTotalRatings().containsKey(v)) {
+            return -1;
+        }
+
         /*
          * movie --> only seasonNumber == 0
          * get the mean from totalRatings

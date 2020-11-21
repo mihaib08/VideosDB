@@ -1,8 +1,8 @@
 package actions.queries;
 
+import actor.Actors;
 import common.Constants;
 import fileio.ActionInputData;
-import videos.Serials;
 import videos.Videos;
 
 import java.util.*;
@@ -14,6 +14,9 @@ public class Query {
     protected String criteria;
     protected int number;
     protected List<List<String>> filters;
+
+    /* for coding style - [MagicNumber] */
+    private static final int FILTER_AWARDS_INDEX = 3;
 
     /** Constructor(s) */
 
@@ -47,73 +50,42 @@ public class Query {
                 return message;
             }
             case Constants.SHOWS -> {
+                QueryShows qShows = new QueryShows(action);
+                message = qShows.solveShows(yr, genre);
+                return message;
+            }
+            case Constants.ACTORS -> {
+                List<String> words = filters.get(2);
+                List<String> awards = filters.get(FILTER_AWARDS_INDEX);
+
                 /* Check criteria */
-                if (criteria.equals(Constants.MOST_VIEWED)) {
-                    HashMap<String, Integer> videos;
+                if (criteria.equals(Constants.AWARDS)) {
+                    HashMap<String, Integer> listActors = Actors.getAwardsActors(awards);
+                    Map<String, Integer> list = Actors.sortValueActors(listActors);
+                    List<String> res = new ArrayList<>(list.keySet());
 
-                    if (yr == null && genre == null) {
-                        videos = Serials.listSerials();
-                    } else if (yr == null) {
-                        videos = Serials.listSerials(genre);
-                    } else {
-                        Integer year = Integer.parseInt(yr);
-                        if (genre == null) {
-                            videos = Serials.listSerials(year);
-                        } else {
-                            videos = Serials.listSerials(year, genre);
-                        }
+                    if (sortType.equals("desc")) {
+                        Collections.reverse(res);
                     }
-                    message = getMostVideos(videos);
+                    message = "Query result: " + res;
                     return message;
-                } else if (criteria.equals(Constants.LONGEST)) {
-                    List<String> res;
-                    if (yr == null && genre == null) {
-                        res = Serials.sortByDuration(Serials.getShows());
-                    } else if (yr == null) {
-                        res = Serials.sortByDuration(Serials.getGenreSerials(genre));
-                    } else {
-                        Integer year = Integer.parseInt(yr);
-                        if (genre == null) {
-                            res = Serials.sortByDuration(Serials.getYearSerials(year));
-                        } else {
-                            res = Serials.sortByDuration(Serials.getYearGenreSerials(year, genre));
-                        }
-                    }
-                    message = getLongest(res);
-                    return message;
-                } else if (criteria.equals(Constants.FAVORITE)) {
-                    HashMap<String, Integer> list;
+                } else if (criteria.equals(Constants.AVERAGE)) {
+                    /*
+                     * Generate a list of actors sorted by
+                     * their rating in ascending order
+                     */
+                    List<String> res = Actors.sortRatings();
 
-                    if (yr == null && genre == null) {
-                        list = Serials.getFavorites();
-                    } else if (yr == null) {
-                        list = Serials.getGenreFavorites(genre);
-                    } else {
-                        Integer year = Integer.parseInt(yr);
-                        if (genre == null) {
-                            list = Serials.getYearFavorites(year);
-                        } else {
-                            list = Serials.getYearGenreFavorites(year, genre);
-                        }
-                    }
-                    message = getMostVideos(list);
+                    message = genMessage(res);
                     return message;
-                } else if (criteria.equals(Constants.RATINGS)) {
-                    HashMap<String, Double> list;
-
-                    if (yr == null && genre == null) {
-                        list = Serials.getRatings();
-                    } else if (yr == null) {
-                        list = Serials.getGenreRatings(genre);
-                    } else {
-                        Integer year = Integer.parseInt(yr);
-                        if (genre == null) {
-                            list = Serials.getYearRatings(year);
-                        } else {
-                            list = Serials.getYearGenreRatings(year, genre);
-                        }
+                } else if (criteria.equals(Constants.FILTER_DESCRIPTIONS)) {
+                    words.replaceAll(String::toLowerCase);
+                    List<String> res = Actors.findWordsActors(words);
+                    if (sortType.equals("desc")) {
+                        Collections.reverse(res);
                     }
-                    message = getMostRated(list);
+
+                    message = "Query result: " + res;
                     return message;
                 }
             }
