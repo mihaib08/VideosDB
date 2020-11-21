@@ -1,5 +1,2 @@
 Starting audit...
-[ERROR] /home/mikee/Desktop/POO/Teme/01/Tests/00/Tema-POO-2020/./src/actor/Actors.java:18:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
-[ERROR] /home/mikee/Desktop/POO/Teme/01/Tests/00/Tema-POO-2020/./src/videos/Videos.java:8:1: Utility classes should not have a public or default constructor. [HideUtilityClassConstructor]
 Audit done.
-Checkstyle ends with 2 errors.

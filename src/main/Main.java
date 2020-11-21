@@ -81,14 +81,11 @@ public final class Main {
 
         //TODO add here the entry point to your implementation
 
-        /*
-         * Writer -> writeFile() util
-         */
         String field = "----";
         Users users =  new Users(input.getUsers());
         Movies.genUtils(input.getMovies());
         Serials.genUtils(input.getSerials());
-        Actors actors = new Actors(input.getActors());
+        Actors.genUtils(input.getActors());
         String message;
 
         /* Parse the actions array */

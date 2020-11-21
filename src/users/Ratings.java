@@ -1,7 +1,7 @@
 package users;
 
 /**
- * Keep evidence of the ratings received by a video
+ * Keep track of the ratings received by a video
  *     --> count - no. ratings
  *     --> sum - sum of the ratings
  */
@@ -22,7 +22,7 @@ public final class Ratings {
         return count;
     }
 
-    public void setCount(final int count) {
+    void setCount(final int count) {
         this.count = count;
     }
 
@@ -30,7 +30,7 @@ public final class Ratings {
         return sum;
     }
 
-    public void setSum(final double sum) {
+    void setSum(final double sum) {
         this.sum = sum;
     }
 }

@@ -18,22 +18,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Recommendation {
-    private ActionInputData action;
-    private List<MovieInputData> movies;
-    private List<SerialInputData> serials;
+    private final List<MovieInputData> movies;
+    private final List<SerialInputData> serials;
 
-    private String type;
-    private String username;
-    private String genre;
+    private final String type;
+    private final String username;
+    private final String genre;
 
     /** Constructor(s) */
-
-    public Recommendation() { }
 
     public Recommendation(final ActionInputData action,
                           final List<MovieInputData> movies,
                           final List<SerialInputData> serials) {
-        this.action = action;
         this.movies = movies;
         this.serials = serials;
 
@@ -72,6 +68,14 @@ public class Recommendation {
                     message = "PopularRecommendation cannot be applied!";
                     return message;
                 }
+
+                String title = getPopular();
+                if (title == null) {
+                    message = "PopularRecommendation cannot be applied!";
+                } else {
+                    message = "PopularRecommendation result: " + title;
+                }
+                return message;
             }
             case Constants.FAVORITE -> {
                 /* check subscriptionType */
@@ -193,6 +197,8 @@ public class Recommendation {
     /**
      * Sort a HM with videos -> keys
      *     --> data type values = double
+     *
+     *   * 2nd criteria : order in the database
      */
     private static Map<String, Double> sortRatings(final HashMap<String, Double> videos) {
         Map<String, Double> res = videos.entrySet()
@@ -265,5 +271,90 @@ public class Recommendation {
             message = "SearchRecommendation result: " + list;
         }
         return message;
+    }
+
+    /**
+     * Generate the genreVideos HM in Users
+     *    --> parse through each video's genres
+     *        and add it to the HM
+     *
+     * Create a HM genre (key) - totalViews (value)
+     */
+    private HashMap<String, Integer> genGenreVideos() {
+        for (MovieInputData v : movies) {
+            for (String g : v.getGenres()) {
+                Users.addVideoGenre(g, v.getTitle());
+            }
+        }
+
+        for (SerialInputData v : serials) {
+            for (String g : v.getGenres()) {
+                Users.addVideoGenre(g, v.getTitle());
+            }
+        }
+
+        HashMap<String, Integer> genreViews = new HashMap<>();
+        for (String g : Users.getGenreVideos().keySet()) {
+            genreViews.put(g, Users.getGenreVideos()
+                    .get(g).getNum());
+        }
+        return genreViews;
+    }
+
+    /**
+     * Return the first unwatched video
+     * from the most popular genre
+     */
+    private String getPopular() {
+        HashMap<String, Integer> genreViews = genGenreVideos();
+
+        /* Sort the HM by the no. views */
+        Map<String, Integer> sortedGenres = genreViews.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+        List<String> listGenres = new ArrayList<>(sortedGenres.keySet());
+        Collections.reverse(listGenres);
+
+//        sortedGenres.forEach((k, v) -> System.out.println(k + " : " + v));
+//        System.out.println("----------------------------");
+//        System.out.println(Users.getWatchedShows().get(username).keySet());
+
+        /*
+         * check if the given user
+         * hasn't watched any videos
+         */
+        if (!Users.getWatchedShows().containsKey(username)) {
+            /*
+             * return the first video
+             * from the most popular genre
+             */
+            for (String g : listGenres) {
+                for (String v : Users.getGenreVideos().get(g).getVideos()) {
+                    return v;
+                }
+            }
+        }
+
+        /* find the first unwatched video */
+        for (String g : listGenres) {
+            for (String v : Users.getGenreVideos()
+                    .get(g).getVideos()) {
+                /*
+                 * check if video was
+                 * previously watched by user username
+                 */
+                if (!Users.getWatchedShows().get(username)
+                        .containsKey(v)) {
+                    return v;
+                }
+            }
+        }
+        return null;
     }
 }

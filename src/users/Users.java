@@ -49,8 +49,13 @@ public final class Users {
      */
     private static HashMap<String, HashMap<Integer, Ratings>> totalRatings;
 
-
-
+    /**
+     * Popular Recommendation Util
+     * HM (String)genre (key) - (VideoViews)obj (key)
+     *     --> for each genre, count the total no. views
+     *         of videos which have genre
+     */
+    private static HashMap<String, VideoViews> genreVideos;
 
     private static List<UserInputData> users;
 
@@ -64,6 +69,7 @@ public final class Users {
         viewsVideo = new HashMap<>();
         noFavorites = new HashMap<>();
         totalRatings = new HashMap<>();
+        genreVideos = new HashMap<>();
         users = usersData;
 
         for (UserInputData user : usersData) {
@@ -270,6 +276,39 @@ public final class Users {
         return null;
     }
 
+    /**
+     * For genre and videoName given --> update genreVideos
+     */
+    public static void addVideoGenre(final String genre, final String video) {
+        /* find the total no. views for video */
+        int nr;
+
+        nr = viewsVideo.getOrDefault(video, 0);
+        VideoViews v;
+        if (!genreVideos.containsKey(genre)) {
+            /* create a new entry in HM for genre */
+            v = new VideoViews();
+
+            ArrayList<String> list = new ArrayList<>();
+            list.add(video);
+
+            v.setNum(nr);
+            v.setVideos(list);
+        } else {
+            /* add video */
+            v = genreVideos.get(genre);
+
+            int aux = v.getNum();
+            aux += nr;
+            v.setNum(aux);
+
+            ArrayList<String> list = v.getVideos();
+            list.add(video);
+            v.setVideos(list);
+        }
+        genreVideos.put(genre, v);
+    }
+
     /** Getters + Setters */
 
     public static HashMap<String, Map<String, Integer>> getWatchedShows() {
@@ -290,5 +329,9 @@ public final class Users {
 
     public static HashMap<String, HashMap<Integer, Ratings>> getTotalRatings() {
         return totalRatings;
+    }
+
+    public static HashMap<String, VideoViews> getGenreVideos() {
+        return genreVideos;
     }
 }

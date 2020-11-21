@@ -15,7 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Actors {
+/**
+ * Utility class
+ *     --> process the actors in the database
+ *         + create Actors' Utils
+ */
+public final class Actors {
     /**
      * The list of actors in the db
      */
@@ -26,7 +31,11 @@ public class Actors {
      */
     private static HashMap<String, Integer> noAwards;
 
-    public Actors(final List<ActorInputData> actorsData) {
+    /** - Private - Constructor */
+    private Actors() { }
+
+    /** Generate the fields */
+    public static void genUtils(final List<ActorInputData> actorsData) {
         actors = actorsData;
 
         noAwards = new HashMap<>();
