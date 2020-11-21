@@ -157,7 +157,6 @@ public final class Serials {
                 res.add(v);
             }
         }
-
         return res;
     }
 
@@ -172,7 +171,6 @@ public final class Serials {
                 res.add(v);
             }
         }
-
         return res;
     }
 
@@ -187,7 +185,6 @@ public final class Serials {
                 res.add(v);
             }
         }
-
         return res;
     }
 
@@ -207,7 +204,6 @@ public final class Serials {
         for (Show s : sortedShow) {
             res.add(s.getTitle());
         }
-
         return res;
     }
 

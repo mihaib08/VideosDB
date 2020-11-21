@@ -2,7 +2,11 @@ package users;
 
 import fileio.UserInputData;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class Users {
@@ -45,6 +49,11 @@ public final class Users {
      */
     private static HashMap<String, HashMap<Integer, Ratings>> totalRatings;
 
+
+
+
+    private static List<UserInputData> users;
+
     /** Constructor(s) */
 
     public Users(final List<UserInputData> usersData) {
@@ -55,6 +64,7 @@ public final class Users {
         viewsVideo = new HashMap<>();
         noFavorites = new HashMap<>();
         totalRatings = new HashMap<>();
+        users = usersData;
 
         for (UserInputData user : usersData) {
             watchedShows.put(user.getUsername(), user.getHistory());
@@ -229,19 +239,6 @@ public final class Users {
         }
     }
 
-    ///////// test
-    public static void tst() {
-        System.out.println("+++++" + totalRatings.size());
-        for (String v : totalRatings.keySet()) {
-            System.out.println("----> " + v);
-            for (int s : totalRatings.get(v).keySet()) {
-                System.out.println(s + " - "
-                        + totalRatings.get(v).get(s).getCount()
-                + "  " + totalRatings.get(v).get(s).getSum());
-            }
-        }
-    }
-
     /**
      * Sort noRatings by its values in ascending order
      *     --> use stream()
@@ -259,6 +256,18 @@ public final class Users {
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
         return res;
+    }
+
+    /**
+     * Get subscriptionType of user
+     */
+    public static String getSubscriptionType(final String user) {
+        for (UserInputData u : users) {
+            if (user.equals(u.getUsername())) {
+                return u.getSubscriptionType();
+            }
+        }
+        return null;
     }
 
     /** Getters + Setters */

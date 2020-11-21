@@ -6,7 +6,13 @@ import utils.Utils;
 import videos.Movies;
 import videos.Serials;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Actors {
@@ -31,11 +37,6 @@ public class Actors {
                                 + a.getAwards().get(award));
             }
         }
-    }
-
-    /////// de sters !!!!!
-    public static void print() {
-        noAwards.forEach((key, value) -> System.out.println(key + " : " + value));
     }
 
     /**

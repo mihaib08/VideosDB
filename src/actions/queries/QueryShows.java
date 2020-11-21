@@ -21,6 +21,7 @@ public final class QueryShows extends Query {
      */
     public String solveShows(final String yr, final String genre) {
         String message;
+
         /* Check criteria */
         if (criteria.equals(Constants.MOST_VIEWED)) {
             HashMap<String, Integer> videos;

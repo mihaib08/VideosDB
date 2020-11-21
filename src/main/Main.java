@@ -1,6 +1,7 @@
 package main;
 
 import actions.Command;
+import actions.Recommendation;
 import actions.queries.Query;
 import actor.Actors;
 import checker.Checkstyle;
@@ -103,6 +104,12 @@ public final class Main {
                 case Constants.QUERY -> {
                     Query query = new Query(action);
                     message = query.solveQuery();
+                    obj = fileWriter.writeFile(action.getActionId(), field, message);
+                }
+                case Constants.RECOMMENDATION -> {
+                    Recommendation rec = new Recommendation(action,
+                            input.getMovies(), input.getSerials());
+                    message = rec.solveRecommendation();
                     obj = fileWriter.writeFile(action.getActionId(), field, message);
                 }
                 default -> {

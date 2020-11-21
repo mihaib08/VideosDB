@@ -1,11 +1,14 @@
 package actions.queries;
 
-import actor.Actors;
 import common.Constants;
 import fileio.ActionInputData;
 import videos.Videos;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Query {
     protected ActionInputData action;
@@ -58,36 +61,10 @@ public class Query {
                 List<String> words = filters.get(2);
                 List<String> awards = filters.get(FILTER_AWARDS_INDEX);
 
-                /* Check criteria */
-                if (criteria.equals(Constants.AWARDS)) {
-                    HashMap<String, Integer> listActors = Actors.getAwardsActors(awards);
-                    Map<String, Integer> list = Actors.sortValueActors(listActors);
-                    List<String> res = new ArrayList<>(list.keySet());
+                QueryActors qActors = new QueryActors(action);
+                message = qActors.solveActors(words, awards);
 
-                    if (sortType.equals("desc")) {
-                        Collections.reverse(res);
-                    }
-                    message = "Query result: " + res;
-                    return message;
-                } else if (criteria.equals(Constants.AVERAGE)) {
-                    /*
-                     * Generate a list of actors sorted by
-                     * their rating in ascending order
-                     */
-                    List<String> res = Actors.sortRatings();
-
-                    message = genMessage(res);
-                    return message;
-                } else if (criteria.equals(Constants.FILTER_DESCRIPTIONS)) {
-                    words.replaceAll(String::toLowerCase);
-                    List<String> res = Actors.findWordsActors(words);
-                    if (sortType.equals("desc")) {
-                        Collections.reverse(res);
-                    }
-
-                    message = "Query result: " + res;
-                    return message;
-                }
+                return message;
             }
             default -> {
             }

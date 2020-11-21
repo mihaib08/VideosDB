@@ -28,11 +28,9 @@ public final class Test {
         if (inputDir != null) {
             Arrays.sort(inputDir);
 
-              /* NU Merge !! */
-//            Scanner scanner = new Scanner(System.in);
-//            String fileName = scanner.next();
+            Scanner scanner = new Scanner(System.in);
+            String fileName = scanner.next();
 
-            String fileName = args[0];
             for (File file : inputDir) {
                 if (file.getName().equalsIgnoreCase(fileName)) {
                     Main.action(file.getAbsolutePath(), Constants.OUT_FILE);

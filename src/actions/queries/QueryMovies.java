@@ -21,6 +21,7 @@ public final class QueryMovies extends Query {
      */
     public String solveMovies(final String yr, final String genre) {
         String message;
+
         /* Check criteria */
         if (criteria.equals(Constants.MOST_VIEWED)) {
             HashMap<String, Integer> videos;
