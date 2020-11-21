@@ -109,13 +109,17 @@ public class Actors {
                      */
                     double rat = Serials.checkSerial(v);
                     if (rat == Constants.ERROR_VALUE) {
-                        /* v wasn't rated */
+                        /*
+                         * v is a SERIAL
+                         * and wasn't rated
+                         */
                         continue;
                     }
                     if (rat == -1) {
-                        /* v is a movie */
+                        /* v is a MOVIE */
                         rat = Movies.findMeanRatings(v);
                         if (rat == -1) {
+                            /* v wasn't rated */
                             continue;
                         }
                     }

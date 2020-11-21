@@ -7,6 +7,7 @@ import fileio.SerialInputData;
 import users.Users;
 import videos.Movies;
 import videos.Serials;
+import videos.Videos;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -94,6 +95,16 @@ public class Recommendation {
                     message = "SearchRecommendation cannot be applied!";
                     return message;
                 }
+
+                HashMap<String, Double> genreMovies = Movies.searchGenreMovies(genre, username);
+                HashMap<String, Double> genreSerials = Serials.searchGenreSerials(genre, username);
+
+                HashMap<String, Double> res = new HashMap<>();
+                res.putAll(genreMovies);
+                res.putAll(genreSerials);
+
+                message = getSearch(res);
+                return message;
             }
             default -> {
             }
@@ -106,7 +117,6 @@ public class Recommendation {
      * unseen by the given user
      */
     private String getStandard() {
-        String res;
         Map<String, Integer> videos = Users.getWatchedShows().get(username);
 
         if (videos == null) {
@@ -235,5 +245,25 @@ public class Recommendation {
             }
         }
         return res;
+    }
+
+    /**
+     * Sort a list of videos having the required genre
+     * by their ratings in ascending order
+     *
+     *  --> return the message for Search Recommendation
+     */
+    private String getSearch(final HashMap<String, Double> videos) {
+        Map<String, Double> res = Videos.sortRatingVideos(videos);
+
+        List<String> list = new ArrayList<>(res.keySet());
+        String message;
+
+        if (list.size() == 0) {
+            message = "SearchRecommendation cannot be applied!";
+        } else {
+            message = "SearchRecommendation result: " + list;
+        }
+        return message;
     }
 }

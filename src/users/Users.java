@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public final class Users {
     /** Create HashMaps username (key) - attribute (value)
-     *                 --> attribute - history - name + no_views
+     *                 --> attribute -> history -> (name, no_views)
      *                               - favorite videos
      */
     private static HashMap<String, Map<String, Integer>> watchedShows;
@@ -125,7 +125,7 @@ public final class Users {
     }
 
     /**
-     * "Watch" video for user
+     * "Watch" video for user --> update watchedShows
      * Return viewsNumber for video
      */
     public static int watchVideo(final String user, final String video) {

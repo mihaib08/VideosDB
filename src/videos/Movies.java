@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -359,6 +360,31 @@ public final class Movies {
 
         s /= nr;
         return s;
+    }
+
+    /**
+     * ---- SEARCH Util ----
+     * Find all movies which have genre
+     *      and are not watched by user
+     */
+    public static HashMap<String, Double> searchGenreMovies(final String genre,
+                                                            final String user) {
+        HashMap<String, Double> res = new HashMap<>();
+
+        /* check if user has watched any shows */
+        if (!Users.getWatchedShows().containsKey(user)) {
+            res = getGenreRatings(genre);
+            return res;
+        }
+
+        Map<String, Integer> userShows = Users.getWatchedShows().get(user);
+        for (MovieInputData v : movies) {
+            if (!userShows.containsKey(v.getTitle()) && v.getGenres().contains(genre)) {
+                Double s = findMeanRatings(v.getTitle());
+                res.put(v.getTitle(), s);
+            }
+        }
+        return res;
     }
 
     /** Getters + Setters */

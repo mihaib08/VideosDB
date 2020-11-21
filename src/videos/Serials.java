@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class Serials {
@@ -399,6 +400,35 @@ public final class Serials {
         }
         /* s is not a serial */
         return -1;
+    }
+
+    /**
+     * ---- SEARCH Util ----
+     * Find all serials which have genre
+     *      and are not watched by user
+     */
+    public static HashMap<String, Double> searchGenreSerials(final String genre,
+                                                             final String user) {
+        /* check if user has watched any shows */
+        if (!Users.getWatchedShows().containsKey(user)) {
+            return getGenreRatings(genre);
+        }
+
+        HashMap<String, Double> res = new HashMap<>();
+        Map<String, Integer> userShows = Users.getWatchedShows().get(user);
+        for (SerialInputData v : serials) {
+            if (v.getGenres().contains(genre)
+                && !userShows.containsKey(v.getTitle())) {
+                double s = findMeanRatings(v);
+
+                if (s == Constants.ERROR_VALUE) {
+                    s = -1;
+                }
+
+                res.put(v.getTitle(), s);
+            }
+        }
+        return res;
     }
 
     /** Getters + Setters */
