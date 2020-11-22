@@ -6,9 +6,9 @@ import fileio.SerialInputData;
  * Add duration to SerialInputData
  */
 public final class Show {
-    private SerialInputData serial;
-    private Integer duration;
-    private String title;
+    private final SerialInputData serial;
+    private final Integer duration;
+    private final String title;
 
     /** Constructor(s) */
 

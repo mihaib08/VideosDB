@@ -82,14 +82,17 @@ public final class Main {
         //TODO add here the entry point to your implementation
 
         String field = "----";
-        Users users =  new Users(input.getUsers());
+
+        /* Process the data given in input */
+        Users.genUtils(input.getUsers());
         Movies.genUtils(input.getMovies());
         Serials.genUtils(input.getSerials());
         Actors.genUtils(input.getActors());
+
         String message;
 
         /* Parse the actions array */
-        JSONObject obj = null;
+        JSONObject obj;
         for (ActionInputData action : input.getCommands()) {
             obj = null;
             switch (action.getActionType()) {

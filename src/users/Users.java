@@ -59,9 +59,12 @@ public final class Users {
 
     private static List<UserInputData> users;
 
-    /** Constructor(s) */
+    /** - Private - Constructor(s) */
 
-    public Users(final List<UserInputData> usersData) {
+    private Users() { }
+
+    /** Generate the fields */
+    public static void genUtils(final List<UserInputData> usersData) {
         watchedShows = new HashMap<>();
         favoriteVideos = new HashMap<>();
         videoRatings = new HashMap<>();

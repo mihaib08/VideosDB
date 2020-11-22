@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 /**
  * Utility class
- *     --> operate with movies
+ *     --> operates with movies
  */
 public final class Movies {
     /**
@@ -174,6 +174,9 @@ public final class Movies {
 
     /**
      * Sort a list of movies by duration
+     *     * 2nd criteria : movie titles
+     *
+     * Inspired by : https://mkyong.com/java8/java-8-how-to-sort-list-with-stream-sorted/
      */
     public static List<String> sortByDuration(final List<MovieInputData> list) {
         List<MovieInputData> videos = new ArrayList<>(list);

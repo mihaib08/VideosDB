@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Utility class
+ *     --> operates with serials
+ */
 public final class Serials {
     /**
      * HashMap year (key) - serials (value)
@@ -49,7 +53,7 @@ public final class Serials {
         Show sh;
         /* Get the duration of an entire serial */
         for (SerialInputData s : serials) {
-            Integer d = 0;
+            int d = 0;
             for (Season season : s.getSeasons()) {
                 d += season.getDuration();
             }
@@ -191,6 +195,7 @@ public final class Serials {
 
     /**
      * Sort a list of shows by duration
+     *     * 2nd criteria : show titles
      */
     public static List<String> sortByDuration(final List<Show> list) {
         List<Show> videos = new ArrayList<>(list);

@@ -26,34 +26,40 @@ public final class QueryActors extends Query {
         String message;
 
         /* Check criteria */
-        if (criteria.equals(Constants.AWARDS)) {
-            HashMap<String, Integer> listActors = Actors.getAwardsActors(awards);
-            Map<String, Integer> list = Actors.sortValueActors(listActors);
-            List<String> res = new ArrayList<>(list.keySet());
+        switch (criteria) {
+            case Constants.AWARDS -> {
+                HashMap<String, Integer> listActors = Actors.getAwardsActors(awards);
+                Map<String, Integer> list = Actors.sortValueActors(listActors);
+                List<String> res = new ArrayList<>(list.keySet());
 
-            if (sortType.equals("desc")) {
-                Collections.reverse(res);
+                if (sortType.equals("desc")) {
+                    Collections.reverse(res);
+                }
+                message = "Query result: " + res;
+                return message;
             }
-            message = "Query result: " + res;
-            return message;
-        } else if (criteria.equals(Constants.AVERAGE)) {
-            /*
-             * Generate a list of actors sorted by
-             * their rating in ascending order
-             */
-            List<String> res = Actors.sortRatings();
+            case Constants.AVERAGE -> {
+                /*
+                 * Generate a list of actors sorted by
+                 * their rating in ascending order
+                 */
+                List<String> res = Actors.sortRatings();
 
-            message = genMessage(res);
-            return message;
-        } else if (criteria.equals(Constants.FILTER_DESCRIPTIONS)) {
-            words.replaceAll(String::toLowerCase);
-            List<String> res = Actors.findWordsActors(words);
-            if (sortType.equals("desc")) {
-                Collections.reverse(res);
+                message = genMessage(res);
+                return message;
             }
+            case Constants.FILTER_DESCRIPTIONS -> {
+                words.replaceAll(String::toLowerCase);
+                List<String> res = Actors.findWordsActors(words);
+                if (sortType.equals("desc")) {
+                    Collections.reverse(res);
+                }
 
-            message = "Query result: " + res;
-            return message;
+                message = "Query result: " + res;
+                return message;
+            }
+            default -> {
+            }
         }
         return null;
     }

@@ -143,6 +143,7 @@ public class Query {
     String genMessage(final List<String> list) {
         String message;
 
+        /* check the required order */
         if (sortType.equals("desc")) {
             Collections.reverse(list);
         }

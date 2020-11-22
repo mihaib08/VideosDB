@@ -23,7 +23,6 @@ public final class QueryUsers extends Query {
         String message;
         Map<String, Integer> res = Users.sortNoRatings();
 
-        /* Check the required order */
         List<String> usersList = new ArrayList<>(res.keySet());
         message = genMessage(usersList);
 
