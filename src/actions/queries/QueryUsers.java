@@ -18,6 +18,7 @@ public final class QueryUsers extends Query {
 
     /**
      * Get the specific message of the query
+     *     --> sort the users by the no. ratings they have given
      */
     public String solveUsers() {
         String message;

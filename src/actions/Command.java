@@ -5,15 +5,13 @@ import fileio.ActionInputData;
 import users.Users;
 
 public class Command {
-    private String type;
-    private String username;
-    private String title;
-    private Double grade;
-    private int seasonNumber;
+    private final String type;
+    private final String username;
+    private final String title;
+    private final Double grade;
+    private final int seasonNumber;
 
     /** Constructor(s) */
-
-    public Command() { }
 
     public Command(final ActionInputData action) {
         this.type = action.getType();

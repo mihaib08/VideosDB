@@ -59,7 +59,7 @@ public final class Actors {
             return noAwards;
         }
 
-        /* find the actors who have won awards */
+        /* find the actors who have won the awards given */
         for (ActorInputData a : actors) {
             boolean ok = true;
 
@@ -70,7 +70,7 @@ public final class Actors {
                 }
             }
 
-            /* check if the actor has won all awards */
+            /* check if the actor a has won all the awards */
             if (ok) {
                 res.put(a.getName(), noAwards.get(a.getName()));
             }
@@ -96,11 +96,11 @@ public final class Actors {
 
     /**
      * Generate actors' ratings
-     *      --> HM actorName (key) - meanRatingActor (value)
+     *      --> HM actorName (key) -> meanRatingActor (value)
      */
     private static HashMap<String, Double> genMeanRatingActors() {
         /**
-         * HM videoName (key) - meanRating (value)
+         * HM videoName (key) -> meanRating (value)
          *    --> videos which actors played in
          */
         HashMap<String, Double> meanRatings = new HashMap<>();
@@ -114,7 +114,7 @@ public final class Actors {
                 if (!meanRatings.containsKey(v)) {
                     /*
                      * check if v is a serial
-                     * if it is, find its meanRating
+                     * if true, find its meanRating
                      */
                     double rat = Serials.checkSerial(v);
                     if (rat == Constants.ERROR_VALUE) {

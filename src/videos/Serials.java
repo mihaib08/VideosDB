@@ -127,7 +127,7 @@ public final class Serials {
     }
 
     /**
-     * Generate a map of serials which have genre from a bigger list
+     * Generate a map of serials which have <genre>
      *         -- listSerials util
      */
     private static HashMap<String, Integer> genListSerials(final String genre,
@@ -137,8 +137,7 @@ public final class Serials {
         for (SerialInputData serial : list) {
             if (serial.getGenres().contains(genre)) {
                 /* Find the no. views */
-                String title;
-                title = serial.getTitle();
+                String title = serial.getTitle();
 
                 HashMap<String, Integer> views = Users.getViewsVideo();
                 if (views.containsKey(title)) {
@@ -150,7 +149,7 @@ public final class Serials {
     }
 
     /**
-     * Get a list of serials filtered by year & genre
+     * Get a list of serials filtered by <year> & <genre>
      */
     public static List<Show> getYearGenreSerials(final Integer year,
                                                  final String genre) {
@@ -200,21 +199,21 @@ public final class Serials {
     public static List<String> sortByDuration(final List<Show> list) {
         List<Show> videos = new ArrayList<>(list);
 
-        List<Show> sortedShow = videos.stream()
+        List<Show> sortedShows = videos.stream()
                 .sorted(Comparator.comparing(Show::getTitle))
                 .sorted(Comparator.comparingInt(Show::getDuration))
                 .collect(Collectors.toList());
 
         /* Extract the title field only */
         List<String> res = new ArrayList<>();
-        for (Show s : sortedShow) {
+        for (Show s : sortedShows) {
             res.add(s.getTitle());
         }
         return res;
     }
 
     /**
-     * Get favorite serials filtered by year and genre
+     * Get favorite serials filtered by <year> & <genre>
      */
     public static HashMap<String, Integer> getYearGenreFavorites(final Integer year,
                                                                  final String genre) {
@@ -392,9 +391,10 @@ public final class Serials {
     }
 
     /**
-     * Check if a video named s is a serial
+     * Check if a video <s> is a serial
      *      --> if true, return its meanRating
-     *                 -- if it wasn't rated --> -2;
+     *                 -- if it wasn't rated -> -2
+     *      --> if false -> -1
      */
     public static double checkSerial(final String s) {
         for (SerialInputData v : serials) {
@@ -409,8 +409,8 @@ public final class Serials {
 
     /**
      * ---- SEARCH Util ----
-     * Find all serials which have genre
-     *      and are not watched by user
+     * Find all the serials which have <genre>
+     *      & are not watched by user
      */
     public static HashMap<String, Double> searchGenreSerials(final String genre,
                                                              final String user) {

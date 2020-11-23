@@ -117,8 +117,9 @@ public class Recommendation {
     }
 
     /**
-     * Return the title of the first video
-     * unseen by the given user
+     * -- STANDARD --
+     * Return the title of the first unseen
+     * video in the database
      */
     private String getStandard() {
         Map<String, Integer> videos = Users.getWatchedShows().get(username);
@@ -154,8 +155,9 @@ public class Recommendation {
     }
 
     /**
+     * -- BEST_UNSEEN --
      * Generate a map of ratings for Movies&Serials
-     *    -- search the video in the sorted map
+     *    --> search the required video in the sorted map
      */
     private String getBestUnseen() {
         String res;
@@ -213,8 +215,9 @@ public class Recommendation {
     }
 
     /**
+     * -- FAVORITE --
      * Parse through the database and
-     * find the video which has been added the most to favorites
+     * find the video which has been added by most users in Favorites
      */
     private String getFavorite() {
         HashMap<String, Integer> favVideos = Users.getNoFavorites();
@@ -224,7 +227,6 @@ public class Recommendation {
 
         /*
          * find the video which has been added the most to Favorites
-         * and is the highest in database
          */
         int maxi = 0;
         String res = null;
@@ -254,6 +256,7 @@ public class Recommendation {
     }
 
     /**
+     * -- SEARCH --
      * Sort a list of videos having the required genre
      * by their ratings in ascending order
      *
@@ -278,7 +281,7 @@ public class Recommendation {
      *    --> parse through each video's genres
      *        and add it to the HM
      *
-     * Create a HM genre (key) - totalViews (value)
+     * Create a HM genre (key) -> totalViews (value)
      */
     private HashMap<String, Integer> genGenreVideos() {
         for (MovieInputData v : movies) {
@@ -302,6 +305,7 @@ public class Recommendation {
     }
 
     /**
+     * -- POPULAR --
      * Return the first unwatched video
      * from the most popular genre
      */
@@ -321,10 +325,6 @@ public class Recommendation {
         List<String> listGenres = new ArrayList<>(sortedGenres.keySet());
         Collections.reverse(listGenres);
 
-//        sortedGenres.forEach((k, v) -> System.out.println(k + " : " + v));
-//        System.out.println("----------------------------");
-//        System.out.println(Users.getWatchedShows().get(username).keySet());
-
         /*
          * check if the given user
          * hasn't watched any videos
@@ -332,7 +332,6 @@ public class Recommendation {
         if (!Users.getWatchedShows().containsKey(username)) {
             /*
              * return the first video
-             * from the most popular genre
              */
             for (String g : listGenres) {
                 for (String v : Users.getGenreVideos().get(g).getVideos()) {
@@ -347,7 +346,7 @@ public class Recommendation {
                     .get(g).getVideos()) {
                 /*
                  * check if video was
-                 * previously watched by user username
+                 * previously watched by <username>
                  */
                 if (!Users.getWatchedShows().get(username)
                         .containsKey(v)) {

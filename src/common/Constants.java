@@ -76,7 +76,7 @@ public final class Constants {
 
     // add any constants you think you may use
 
-    // Magic Number - coding style
+    // [MagicNumber] - coding style
     public static final int ERROR_VALUE = -2;
 
     // Command_Type

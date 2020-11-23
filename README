@@ -1,38 +1,122 @@
-Object Oriented Programming Course
-Homework - VideosDB
+/**
+ * Mihai-Eugen Barbu [2020-2021]
+ * 325CA
+ */
 
-November 2020
+==== POO - Tema - VideosDB ====
 
-# Info
-https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/tema
+/**
+ * ---- Notatii tipuri de date ----
+ *
+ *     > HM - HashMap<>
+ *     > M - Map
+ *     > L - List<>
+ *     > AL - ArrayList<>
+ */
 
-# About the code
+--> Se folosesc clasele Users, Movies, Serials si Actors pentru procesarea datelor primite ca input.
+			  ----> Utility Classes <----
 
-We provide the input tests, the logic that parses them and the checker that runs them.
+  >> In acest mod se creeaza initial urmatoarele campuri:
+    
+    -> Users : (HM) watchedShows - retine istoricul vizionarilor fiecarui user;
+             : (HM) favoriteVideos - lista de videouri favorite a fiecarui user;
+             : (L) users - lista de utilizatori <UserInputData>;
+             : (HM) videoRatings - indexeaza, pentru fiecare utilizator, rating-ul fiecarui video
+                                   pe sezoane;
+             : (HM) noRatings - numarul total de rating-uri oferite de fiecare user;
+             : (HM) viewsVideo - numarul de vizualizari ale fiecarui video;
+             : (HM) noFavorites - pentru fiecare videoclip se indica numarul de utilizatori
+                                  care au adaugat acel video in lista de favorite;
+             : (HM) totalRatings - adauga un rating in functie de video si de sezon;
+                        ^ se creeaza clasa - Ratings - in care : se numara cate rating-uri au fost oferite (count);
+                                                               : se retine o suma a rating-urilor primite;
+             : (HM) genreVideos - indexeaza numarul total de vizualizari ale video-urilor dintr-un anumit gen;
+                        ^ se creeaza clasa - VideoViews - care contine : num -> numarul de vizualizari a unei
+                                                                                liste de video-uri;
+                                                                       : (AL) videos -> lista de video-uri;
 
-* test_db - contains the tests in JSON format
-* src
-   * checker - the checker's sources including the checkstyle necessary files, not to be modified
-   * fileio - classes for parsing the input files, not to be modified
-   * common, utils
-        * contain utility classes with constants and static methods
-        * you can add your own functionality in the existing classes or add new classes as well
-   * actor
-        * contains an enum for the types of awards an actor can have - do not modify it
-        * you can add here your actor related classes
-   * entertainment
-        * contains an enum for the supported video genres - do not modify it
-        * class for representing a Season of a tv show - do not modify it
-        * you can add here your entertainment related classes
+    -> Movies : (L) movies - lista de filme <MovieInputData>;
+              : (HM) yearMovies - indexarea filmelor dupa anul de aparitie;
 
-We encourage you to organize your implementation in packages based on the functionality their classes offer. Try to keep
-your code modular, readable and documented.
+    -> Serials : (L) serials - lista de seriale <SerialInputData>;
+               : (HM) yearSerials - indexarea serialelor dupa anul de aparitie;
+               : (L) shows -> o "extindere" a campului serials
+                       ^ se creeaza clasa - Show -
+                               <> pentru fiecare <SerialInputData> serial va retine in plus:
+                                                 - duration - durata totala a serialului;
+                                                 - title - titlul serialului;
 
-# Testing
+    -> Actors : (L) actors - lista de actori <ActorInputData>;
+              : (HM) noAwards - retine pentru fiecare actor cate premii a castigat;
 
-The Main class runs the checker on your implementation. Add the entry point to your implementation in it.
 
-Run Main to test your implementation from the IDE or from command line.
+  >> Folosind aceste campuri, se construiesc metode pentru rezolvarea fiecarei actiuni:
 
-Run the main method from Test class with the name of the input file from the command line and the result will be written
-to the out.txt file. Thus, you can compare this result with ref.
+    --> Comenzi
+
+           -- Favorite -> se verifica daca video-ul se afla deja in favoriteVideos,
+                          daca a fost vizionat de user (watchedShows);
+                       -> se actualizeaza favoriteVideos si noFavorites;
+
+           -- View -> se actualizeaza watchedShows si viewsVideo;
+
+           -- Rating -> se verifica daca videoclipul a fost vizionat (watchedShows),
+                        daca i s-a oferit deja rating (videoRatings);
+                     -> se actualizeaza videoRatings, noRatings si totalRatings;
+
+    --> Queries
+          > in functie de objectType se creeaza clasele :
+
+            -> QueryUsers - se sorteaza noRatings si se extrag utilizatorii in ordinea specificata;
+            
+            -> QueryMovies / QueryShows
+                     <-> filtre - year
+                                - genre
+
+                    - MOST_VIEWED : folosind viewsVideo se genereaza un HM de forma <videoName, noViews>
+                                    care se sorteaza in functie de noViews(I) si videoName(II);
+
+                    - LONGEST : se sorteaza o lista de video-uri dupa durata
+                                                 - la seriale, folosind clasa Show se calculeaza durata totala;
+
+                    - FAVORITE : folosind noFavorites se genereaza un HM <videoName, countFavorites>,
+                                 acesta fiind sortat dupa countFavorites(I) si videoName(II);
+
+                    - RATINGS : folosind totalRatings se creeaza un HM <videoName, meanRating>,
+                                fiind sortat dupa meanRating(I) si videoName(II);
+
+               <> Pentru sortarile videoclipurilor se folosesc metodele din clasa - Videos -
+
+            -> QueryActors :
+                     <-> filtre - awards
+                                - words
+
+                    - AWARDS : folosind noAwards se genereaza un HM <actorName, countAwards>,
+                               care se sorteaza dupa countAwards(I) si actorName(II);
+
+                    - AVERAGE : se genereaza un HM <actorName, meanRating>, unde meanRating
+                                se afla prin parcurgerea listei de filme a actorului si
+                                aflarea rating-ului in functie de tip (film/serial);
+
+                    - FILTER_DESCRIPTION : se transforma descrierea fiecarui actor intr-o lista de cuvinte,
+                                           dupa care se cauta keywords-urile cerute;
+
+    --> Recomandari
+
+           -- Standard - se intoarce video-ul cerut in functie de watchedShows;
+
+           -- Best Unseen - se realizeaza un HM <video, meanRating> care se sorteaza
+                            dupa rating, tinandu-se cont de ordinea din baza de date;
+
+           -- Popular - se populeaza in genreVideos (Users), dupa care se sorteaza genurile
+                        in functie de numarul de vizualizari si se afla primul video nevizionat
+                        din noua lista generata;
+
+           -- Favorite - se foloseste noFavorites si se parcurg video-urile din baza de date
+                         in ordine, cautandu-se primul video cu numar maxim de adaugari in
+                         lista de favorite;
+
+           -- Search - se genereaza, in functie de gen, un HM <video, meanRating> care se sorteaza dupa meanRating;
+
+

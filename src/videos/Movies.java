@@ -50,7 +50,7 @@ public final class Movies {
 
     /**
      *  ---------- MOST_VIEWED Util ----------
-     * Get the movies produced in year, which have genre
+     * Get the movies produced in <year>, which have <genre>
      *     --> HashMap movieTitle (key) -> no. views (value)
      */
     public static HashMap<String, Integer> listMovies(final Integer year,
@@ -112,7 +112,7 @@ public final class Movies {
     }
 
     /**
-     * Generate a map of movies which have genre from a bigger list
+     * Generate a map of movies which have <genre>
      *         -- listMovies util
      */
     private static HashMap<String, Integer> genListMovies(final String genre,
@@ -136,8 +136,8 @@ public final class Movies {
 
     /**
      *  ---------- LONGEST Util ----------
-     * Get the list of movies - produced in year
-     *                        - having genre
+     * Get the list of movies - produced in <year>
+     *                        - having <genre>
      */
     public static List<MovieInputData> getYearGenreMovies(final Integer year,
                                                           final String genre) {
@@ -196,7 +196,7 @@ public final class Movies {
 
     /**
      *  ---------- FAVORITE Util ----------
-     * Get the favorite movies filtered by year and genre
+     * Get the favorite movies filtered by <year> and <genre>
      */
     public static HashMap<String, Integer> getYearGenreFavorites(final Integer year,
                                                                  final String genre) {
@@ -269,7 +269,7 @@ public final class Movies {
     }
 
     /**
-     * Get the movies which are rated
+     * Find the movies which are rated
      *    --> filters : year, genre
      */
     public static HashMap<String, Double> getYearGenreRatings(final Integer year,
@@ -367,8 +367,8 @@ public final class Movies {
 
     /**
      * ---- SEARCH Util ----
-     * Find all movies which have genre
-     *      and are not watched by user
+     * Find all the movies having <genre>
+     *      & are not watched by <user>
      */
     public static HashMap<String, Double> searchGenreMovies(final String genre,
                                                             final String user) {

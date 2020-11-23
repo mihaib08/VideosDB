@@ -51,15 +51,15 @@ public final class Users {
 
     /**
      * Popular Recommendation Util
-     * HM (String)genre (key) - (VideoViews)obj (key)
+     * HashMap (String)genre (key) - (VideoViews)obj (key)
      *     --> for each genre, count the total no. views
-     *         of videos which have genre
+     *         of videos which have <genre>
      */
     private static HashMap<String, VideoViews> genreVideos;
 
     private static List<UserInputData> users;
 
-    /** - Private - Constructor(s) */
+    /** - Private - Constructor */
 
     private Users() { }
 
@@ -105,7 +105,7 @@ public final class Users {
      * 0 - video was NOT added <-> not seen
      */
     public static int addFavorite(final String user, final String video) {
-        /* Check if video is already in the favoriteVideos of user */
+        /* Check if <video> is already in the favoriteVideos of user */
         ArrayList<String> favorites = favoriteVideos.get(user);
 
         for (String show : favorites) {
@@ -134,7 +134,7 @@ public final class Users {
     }
 
     /**
-     * "Watch" video for user --> update watchedShows
+     * "Watch" <video> for user --> update watchedShows
      * Return viewsNumber for video
      */
     public static int watchVideo(final String user, final String video) {
@@ -148,11 +148,11 @@ public final class Users {
     }
 
     /**
-     * Rate video --> check if seasonNumber is rated
+     * Rate <video> --> check if seasonNumber is rated
      *      -- movie -> seasonNumber == 0
      *
      *      >> 0 - is not seen
-     *      >> 1 - has been already rated
+     *      >> 1 - has already been rated
      *      >> 2 - is newly rated
      */
     public static int rateVideo(final String user, final String video,
@@ -212,7 +212,7 @@ public final class Users {
      * Add the rating to totalRatings HM
      */
     private static void addRating(final String video, final int seasonNumber,
-                           final Double grade) {
+                                  final Double grade) {
         HashMap<Integer, Ratings> seasonRatings = totalRatings.get(video);
 
         /* no season of video is rated */

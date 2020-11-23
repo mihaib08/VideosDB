@@ -73,7 +73,7 @@ public class Query {
     }
 
     /**
-     * Get the first number entries from a list
+     * Get the first <number> entries from a list
      */
     List<String> getFirst(final List<String> list) {
         List<String> res = new ArrayList<>();
@@ -104,8 +104,7 @@ public class Query {
     }
 
     /**
-     * Get the first <sortType> longest videos
-     *    --> return message
+     * Criteria : LONGEST
      */
     String getLongest(final List<String> videos) {
         String message;
@@ -120,7 +119,7 @@ public class Query {
     }
 
     /**
-     * Get the message for the RATING
+     * Criteria : RATINGS
      */
     String getMostRated(final HashMap<String, Double> videos) {
         String message;
@@ -138,7 +137,7 @@ public class Query {
     }
 
     /**
-     * Generate the Query message for a given result
+     * Generate the Query message for a given list
      */
     String genMessage(final List<String> list) {
         String message;
